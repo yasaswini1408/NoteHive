@@ -15,11 +15,13 @@ let notes = [
 
 //decribing the routes in the notes app to perform CRUD operations
 
+//get all notes
 app.get("/all_notes", (req, res) => {
     // res.send("Get all notes")
     res.json(notes)
 })
 
+//get single notes
 app.get("/notes/:id", (req, res) => {
     // res.send(`Get notes with id : ${req.params.id}`)
     let foundNote = null;
@@ -45,6 +47,7 @@ app.get("/notes/:id", (req, res) => {
 //     }
 // })
 
+//delete a note with id
 app.delete("/notes/:id", (req, res) => {
     const id = Number(req.params.id);
     const exists = notes.some(note => note.id === id);
@@ -55,6 +58,7 @@ app.delete("/notes/:id", (req, res) => {
     res.send("Note deleted successfully");
 })
 
+//update a note with id
 app.put("/update_notes/:id", (req, res) => {
     // res.send(`Updating the notes with id: ${req.params.id}`)
     let foundNote = null;
@@ -71,6 +75,7 @@ app.put("/update_notes/:id", (req, res) => {
     res.json(foundNote);
 })
 
+//create a new note
 app.post('/notes', (req, res) => {
     if (!req.body.name) {
         return res.status(400).send("Name is required");
