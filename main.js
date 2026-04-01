@@ -3,6 +3,7 @@ const app = express()
 const port = 4200
 app.use(express.json())
 
+// example users
 
 let notes = [
     { id: 101, name: "my_notes1" },
@@ -82,6 +83,7 @@ app.post('/notes', (req, res) => {
     res.json(newNote);
 })
 
+//check for server
 app.listen(port, () => {
     console.log(`server is running successfully at ${port}`)
 })
