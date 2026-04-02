@@ -3,7 +3,7 @@ const app = express()
 const port = 4200
 app.use(express.json())
 
-// example users
+// example notes data
 
 let notes = [
     { id: 101, name: "my_notes1" },
