@@ -1,4 +1,5 @@
 const Note = require('../models/noteModel')
+const mongoose = require('mongoose')
 
 //decribing the routes in the notes app to perform CRUD operations
 
@@ -53,15 +54,19 @@ exports.getAllNotes = async (req, res) => {
 //get single notes
 exports.getNoteById = async (req, res) => {
     try {
+        console.log("Route hit")
+        console.log("ID:", req.params.id)
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send("Invalid ID")
         }
         const note = await Note.findById(req.params.id)
+        console.log("Result:", note)
         if (!note) {
             return res.status(404).send("Note not found")
         }
         res.json(note)
     } catch (err) {
+        console.log("🔥 FULL ERROR:", err)   // IMPORTANT
         res.status(500).send("Error fetching note")
     }
 }
