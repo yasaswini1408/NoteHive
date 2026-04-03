@@ -52,19 +52,15 @@ app.get("/notes", async (req, res) => {
 
 //get single notes
 app.get("/notes/:id", async (req, res) => {
-
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send("Invalid ID")
         }
         const note = await Note.findById(req.params.id)
-
         if (!note) {
             return res.status(404).send("Note not found")
         }
-
         res.json(note)
-
     } catch (err) {
         res.status(500).send("Error fetching note")
     }
@@ -87,19 +83,15 @@ app.get("/notes/:id", async (req, res) => {
 
 //delete a note with id
 app.delete("/notes/:id", async (req, res) => {
-
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send("Invalid ID")
         }
         const deletedNote = await Note.findByIdAndDelete(req.params.id)
-
         if (!deletedNote) {
             return res.status(404).send("Note not found")
         }
-
         res.send("Note deleted successfully")
-
     } catch (err) {
         res.status(500).send("Error deleting note")
     }
@@ -125,9 +117,8 @@ app.delete("/notes/:id", async (req, res) => {
 //     }
 // })
 
-//update a note with id
+//update a note with id and also update the name of the note
 app.put("/notes/:id", async (req, res) => {
-
     try {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send("Invalid ID")
@@ -140,13 +131,10 @@ app.put("/notes/:id", async (req, res) => {
             { name: req.body.name },
             { new: true }
         )
-
         if (!updatedNote) {
             return res.status(404).send("Note not found")
         }
-
         res.json(updatedNote)
-
     } catch (err) {
         res.status(500).send("Error updating note")
     }
