@@ -2,11 +2,44 @@ const Note = require('../models/noteModel')
 
 //decribing the routes in the notes app to perform CRUD operations
 
-//get all notes
+//get all notes by using query parameters for searching, pagination and sorting
 exports.getAllNotes = async (req, res) => {
     try {
-        const notes = await Note.find()
-        res.json(notes)
+        const search = req.query.search?.trim()
+        const page = Number(req.query.page) || 1
+        const limit = req.query.limit ? Number(req.query.limit) : null
+        const sort = req.query.sort || "desc"
+        const skip = limit ? (page - 1) * limit : 0
+        let query = {}
+
+        //Search
+        if (search) {
+            query.name = { $regex: search, $options: 'i' }
+        }
+
+        //Sorting
+        let sortOption = {}
+        if (sort === "asc") {
+            sortOption = { name: 1 }   //a->z
+        } else {
+            sortOption = { name: -1 }  //z->a
+        }
+
+        //Build query
+        let queryBuilder = Note.find(query).sort(sortOption)
+
+        //Apply pagination only if limit exists
+        if (limit) {
+            queryBuilder = queryBuilder.skip(skip).limit(limit)
+        }
+        const notes = await queryBuilder
+        const total = await Note.countDocuments(query)
+        res.json({
+            total,
+            page: limit ? page : null,
+            limit: limit,
+            notes
+        })
     } catch (err) {
         res.status(500).send("Error fetching notes")
     }
@@ -138,3 +171,6 @@ exports.createNote = async (req, res) => {
         return res.status(500).send("Error is saving notes to the database")
     }
 }
+
+
+
