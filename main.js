@@ -6,7 +6,7 @@ app.use(express.json())
 const mongoose = require('mongoose')
 const Note = require('./models/noteModel')
 
-const noteRoutes = require('./routes/noteRoutes')
+const noteRoutes = require('./routers/noteRoutes')
 app.use('/notes', noteRoutes)
 
 //In place of sample data of notes, we will be using MongoDB to store the notes data and perform CRUD operations on it. 
