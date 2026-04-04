@@ -11,7 +11,7 @@ exports.getAllNotes = async (req, res) => {
         const limit = req.query.limit ? Number(req.query.limit) : null
         const sort = req.query.sort || "desc"
         const skip = limit ? (page - 1) * limit : 0
-        let query = {}
+        let query = { user: req.user.userId }  
 
         //Search
         if (search) {
@@ -54,19 +54,18 @@ exports.getAllNotes = async (req, res) => {
 //get single notes
 exports.getNoteById = async (req, res) => {
     try {
-        console.log("Route hit")
-        console.log("ID:", req.params.id)
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send("Invalid ID")
         }
-        const note = await Note.findById(req.params.id)
-        console.log("Result:", note)
+        const note = await Note.findOne({
+            _id: req.params.id,
+            user: req.user.userId
+        })
         if (!note) {
             return res.status(404).send("Note not found")
         }
         res.json(note)
     } catch (err) {
-        console.log("🔥 FULL ERROR:", err)   // IMPORTANT
         res.status(500).send("Error fetching note")
     }
 }
@@ -92,7 +91,10 @@ exports.deleteNote = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).send("Invalid ID")
         }
-        const deletedNote = await Note.findByIdAndDelete(req.params.id)
+        const deletedNote = await Note.findOneAndDelete({
+            _id: req.params.id,
+            user: req.user.userId 
+        })
         if (!deletedNote) {
             return res.status(404).send("Note not found")
         }
@@ -131,8 +133,8 @@ exports.updateNote = async (req, res) => {
         if (!req.body.name) {
             return res.status(400).send("Name is required")
         }
-        const updatedNote = await Note.findByIdAndUpdate(
-            req.params.id,
+        const updatedNote = await Note.findOneAndUpdate(
+            { _id: req.params.id, user: req.user.userId },   
             { name: req.body.name },
             { new: true }
         )
@@ -168,7 +170,8 @@ exports.createNote = async (req, res) => {
             return res.status(400).send("Name is required")
         }
         const newNote = new Note({
-            name: req.body.name
+            name: req.body.name,
+            user: req.user.userId
         })
         const savedNote = await newNote.save()
         res.json(savedNote)
