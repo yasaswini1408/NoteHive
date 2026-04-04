@@ -2,12 +2,18 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const port = 4200
-app.use(express.json())
 const mongoose = require('mongoose')
+app.use(express.json())
 
 const noteRoutes = require('./routers/noteRoutes')
-// app.use('/notes', noteRoutes)
+const authRoutes = require('./routers/authRoutes')
 
+app.use('/notes', noteRoutes)
+app.use('/auth', authRoutes)
+
+// app.get('/test', (req, res) => {
+//     res.send("Server working")
+// })
 // //In place of sample data of notes, we will be using MongoDB to store the notes data and perform CRUD operations on it. 
 
 // //creating a schema for the notes collection in MongoDB,we wont create seperately id for the notes because MongoDB will 
@@ -37,11 +43,9 @@ const noteRoutes = require('./routers/noteRoutes')
 mongoose.connect(process.env.MONGO_URL)
     .then(() => {
         console.log("MongoDB connected successfully !")
-
-        app.use('/notes', noteRoutes)
-
-        app.listen(port, () => {
-            console.log(`Server is running successfully at ${port}`)
-        })
     })
     .catch(err => console.log(err))
+
+app.listen(port, () => {
+    console.log(`Server is running successfully at ${port}`)
+})
