@@ -212,7 +212,7 @@ DELETE /notes/:id
 ```
 **Response:**
 ```
-Note deleted successfully
+Note deleted successfully !
 ```
 
 ---
