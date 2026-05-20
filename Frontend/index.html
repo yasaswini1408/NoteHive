@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteHive</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>NoteHive</h1>
+        <p class="subtitle" id="subtitle">Sign in to your account</p>
+        <div class="error" id="errorMsg"></div>
+        <!-- login form -->
+        <div id="loginForm">
+            <input type="email" id="loginEmail" placeholder="Email"/>
+            <input type="password" id="loginPassword" placeholder="Password"/>
+            <button onclick="login()">Login</button>
+            <div class="toggle">
+                Don't have an account?
+                <span onclick="showSignup()">Sign Up</span>
+            </div>
+        </div>
+        <!-- signup form -->
+        <div>
+            <input type="text" id="signupName" placeholder="Full Name"/>
+            <input type="email" id="signupEmail" placeholder="Email"/>
+            <input type="password" id="signupPassword" placeholder="Password"/>
+            <button onclick="signup()">Create Account</button>
+            <div>
+                Already have an account?
+                <span onclick="showLogin()">Login</span>
+            </div>
+        </div>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
