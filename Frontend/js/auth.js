@@ -1,4 +1,4 @@
-const API = 'http://localhost:4200'
+const API = 'https://notehive-qi1d.onrender.com'
 
 function showSignup() {
     document.getElementById('loginForm').style.display = 'none'
