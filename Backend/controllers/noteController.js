@@ -11,7 +11,7 @@ exports.getAllNotes = async (req, res) => {
         const limit = req.query.limit ? Number(req.query.limit) : null
         const sort = req.query.sort || "desc"
         const skip = limit ? (page - 1) * limit : 0
-        let query = { user: req.user.userId }  
+        let query = { user: req.user.userId }
 
         //Search
         if (search) {
@@ -93,7 +93,7 @@ exports.deleteNote = async (req, res) => {
         }
         const deletedNote = await Note.findOneAndDelete({
             _id: req.params.id,
-            user: req.user.userId 
+            user: req.user.userId
         })
         if (!deletedNote) {
             return res.status(404).send("Note not found")
@@ -134,9 +134,9 @@ exports.updateNote = async (req, res) => {
             return res.status(400).send("Name is required")
         }
         const updatedNote = await Note.findOneAndUpdate(
-            { _id: req.params.id, user: req.user.userId },   
+            { _id: req.params.id, user: req.user.userId },
             { name: req.body.name },
-            { new: true }
+            { returnDocument: 'after' }
         )
         if (!updatedNote) {
             return res.status(404).send("Note not found")

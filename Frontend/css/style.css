@@ -1,4 +1,8 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
 
 body {
     font-family: 'Segoe UI', sans-serif;
@@ -16,12 +20,6 @@ body {
     box-shadow: 0 4px 24px rgba(0,0,0,0.08);
     width: 100%;
     max-width: 400px;
-}
-
-.logo {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 0.25rem;
 }
 
 h1 {
@@ -49,7 +47,9 @@ input {
     transition: border 0.2s;
 }
 
-input:focus { border-color: #F5A623; }
+input:focus { 
+    border-color: #F5A623; 
+}
 
 button {
     width: 100%;
@@ -64,7 +64,9 @@ button {
     transition: background 0.2s;
 }
 
-button:hover { background: #e09415; }
+button:hover { 
+    background: #e09415; 
+}
 
 .toggle {
     text-align: center;

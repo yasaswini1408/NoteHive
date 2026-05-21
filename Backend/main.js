@@ -1,8 +1,16 @@
 require('dotenv').config()
+const cors = require('cors')
 const express = require('express')
 const app = express()
 const port = 4200
 const mongoose = require('mongoose')
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}))
+
 app.use(express.json())
 
 const noteRoutes = require('./routers/noteRoutes')
@@ -10,6 +18,9 @@ const authRoutes = require('./routers/authRoutes')
 
 app.use('/notes', noteRoutes)
 app.use('/auth', authRoutes)
+
+
+
 
 // app.get('/test', (req, res) => {
 //     res.send("Server working")

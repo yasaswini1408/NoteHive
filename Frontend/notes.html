@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteHive</title>
+    <link rel="stylesheet" href="css/notes.css">
+</head>
+<body>
+
+    <nav>
+        <div class="nav-logo">NoteHive</div>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+    </nav>
+
+    <div class="main">
+
+        <!-- Create notes-->
+        <div class="create-box">
+            <input type="text" id="noteInput" placeholder="Write a new note..." />
+            <button onclick="createNote()">+ Add Note</button>
+        </div>
+
+        <!-- Notes appearance -->
+        <div class="notes-grid" id="notesGrid">
+        </div>
+
+    </div>
+
+    <!-- Edit-->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3>Edit Note</h3>
+            <input type="text" id="editInput" placeholder="Update your note..." />
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+                <button onclick="saveEdit()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/notes.js"></script>
+</body>
+</html>
