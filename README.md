@@ -1,6 +1,8 @@
 # NoteHive
 
-A secure, full-featured **Notes REST API** built with Node.js, Express and MongoDB. NoteHive lets users sign up, log in, and manage their own personal notes — all protected with JWT authentication.
+A secure, full-featured **full stack Notes App** built with Node.js, Express, MongoDB and vanilla JavaScript. NoteHive lets users sign up, log in, and privately manage their own notes — all protected with JWT authentication.
+
+🌐 **Live Demo** → [notehive365.netlify.app](https://notehive365.netlify.app)
 
 ---
 
@@ -8,16 +10,19 @@ A secure, full-featured **Notes REST API** built with Node.js, Express and Mongo
 
 - ✅ User registration and login with encrypted passwords
 - ✅ JWT-based authentication and protected routes
-- ✅ Full CRUD operations on notes
+- ✅ Full CRUD operations on notes (Create, Read, Update, Delete)
 - ✅ Each note is privately linked to its owner
 - ✅ Search notes by name
 - ✅ Pagination and sorting support
 - ✅ Timestamps on all records
+- ✅ Clean and responsive frontend UI
+- ✅ Deployed and live on the internet
 
 ---
 
 ## 🛠️ Tech Stack
 
+### Backend
 | Technology | Purpose |
 |---|---|
 | Node.js | Runtime environment |
@@ -26,7 +31,24 @@ A secure, full-featured **Notes REST API** built with Node.js, Express and Mongo
 | Mongoose | MongoDB object modeling |
 | bcryptjs | Password hashing |
 | jsonwebtoken | JWT authentication |
+| cors | Cross-origin resource sharing |
 | dotenv | Environment variable management |
+
+### Frontend
+| Technology | Purpose |
+|---|---|
+| HTML | Page structure |
+| CSS | Styling and layout |
+| JavaScript | Logic and API calls |
+| Fetch API | HTTP requests to backend |
+| localStorage | Token storage |
+
+### Deployment
+| Service | Purpose |
+|---|---|
+| Render | Backend hosting |
+| Netlify | Frontend hosting |
+| MongoDB Atlas | Cloud database |
 
 ---
 
@@ -34,54 +56,78 @@ A secure, full-featured **Notes REST API** built with Node.js, Express and Mongo
 
 ```
 NoteHive/
-├── controllers/
-│   ├── authController.js     # Signup and login logic
-│   └── noteController.js     # CRUD logic for notes
-├── middleware/
-│   └── authMiddleware.js     # JWT token verification
-├── models/
-│   ├── userModel.js          # User schema
-│   └── noteModel.js          # Note schema
-├── routers/
-│   ├── authRoutes.js         # Auth endpoints
-│   └── noteRoutes.js         # Note endpoints
-├── .env                      # Environment variables
-├── main.js                   # Entry point
-└── package.json
+├── Backend/
+│   ├── controllers/
+│   │   ├── authController.js     # Signup and login logic
+│   │   └── noteController.js     # CRUD logic for notes
+│   ├── middleware/
+│   │   └── authMiddleware.js     # JWT token verification
+│   ├── models/
+│   │   ├── userModel.js          # User schema
+│   │   └── noteModel.js          # Note schema
+│   ├── routers/
+│   │   ├── authRoutes.js         # Auth endpoints
+│   │   └── noteRoutes.js         # Note endpoints
+│   ├── .env.example              # Environment variable template
+│   ├── main.js                   # Entry point
+│   └── package.json
+│
+└── Frontend/
+    ├── index.html                # Login and signup page
+    ├── notes.html                # Notes dashboard
+    ├── css/
+    │   ├── style.css             # Login page styles
+    │   └── notes.css             # Notes page styles
+    └── js/
+        ├── auth.js               # Login and signup logic
+        └── notes.js              # Notes CRUD logic
 ```
 
 ---
 
-## ⚙️ Getting Started
+## ⚙️ Getting Started Locally
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yasaswini1408/NoteHive.git
+git clone your_repo_url
 cd NoteHive
 ```
 
-### 2. Install dependencies
+### 2. Install backend dependencies
 
 ```bash
+cd Backend
 npm install
 ```
 
 ### 3. Set up environment variables
 
-Create a `.env` file in the root directory:
+Create a `.env` file inside the `Backend` folder:
 
 ```env
 MONGO_URL=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
 ```
 
-### 4. Start the server
+### 4. Start the backend server
 
 ```bash
 node main.js
 ```
 
 Server runs at `http://localhost:4200`
+
+### 5. Open the frontend
+
+Open `Frontend/index.html` using Live Server in VS Code or run:
+
+```bash
+cd ../Frontend
+npx serve .
+```
+
+Frontend runs at `http://localhost:3000`
 
 ---
 
@@ -93,7 +139,6 @@ Server runs at `http://localhost:4200`
 ```
 POST /auth/signup
 ```
-**Request body:**
 ```json
 {
   "name": "John Doe",
@@ -101,35 +146,18 @@ POST /auth/signup
   "password": "123456"
 }
 ```
-**Response:**
-```json
-{
-  "_id": "64abc...",
-  "name": "John Doe",
-  "email": "john@example.com",
-  "createdAt": "2026-04-04T10:00:00.000Z"
-}
-```
-
----
 
 #### Login
 ```
 POST /auth/login
 ```
-**Request body:**
 ```json
 {
   "email": "john@example.com",
   "password": "123456"
 }
 ```
-**Response:**
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
+Returns a JWT token.
 
 ---
 
@@ -140,80 +168,22 @@ POST /auth/login
 > Authorization: Bearer your_token_here
 > ```
 
----
-
-#### Get All Notes
-```
-GET /notes
-```
-
-**Optional query parameters:**
-
-| Parameter | Type | Description |
+| Method | Endpoint | Description |
 |---|---|---|
-| search | string | Search notes by name |
-| page | number | Page number (default: 1) |
-| limit | number | Notes per page |
-| sort | string | `asc` or `desc` (default: desc) |
+| GET | /notes | Get all notes |
+| GET | /notes/:id | Get note by ID |
+| POST | /notes | Create a note |
+| PUT | /notes/:id | Update a note |
+| DELETE | /notes/:id | Delete a note |
 
-**Example:**
-```
-GET /notes?search=meeting&page=1&limit=5&sort=asc
-```
+#### Optional query parameters for GET /notes:
 
----
-
-#### Get Note by ID
-```
-GET /notes/:id
-```
-
----
-
-#### Create a Note
-```
-POST /notes
-```
-**Request body:**
-```json
-{
-  "name": "My first note"
-}
-```
-**Response:**
-```json
-{
-  "_id": "64xyz...",
-  "name": "My first note",
-  "user": "64abc...",
-  "createdAt": "2026-04-04T11:00:00.000Z",
-  "updatedAt": "2026-04-04T11:00:00.000Z"
-}
-```
-
----
-
-#### Update a Note
-```
-PUT /notes/:id
-```
-**Request body:**
-```json
-{
-  "name": "Updated note name"
-}
-```
-
----
-
-#### Delete a Note
-```
-DELETE /notes/:id
-```
-**Response:**
-```
-Note deleted successfully !
-```
+| Parameter | Description |
+|---|---|
+| search | Search notes by name |
+| page | Page number |
+| limit | Notes per page |
+| sort | `asc` or `desc` |
 
 ---
 
@@ -225,12 +195,23 @@ Note deleted successfully !
 4. For protected routes, the token is sent in the `Authorization` header
 5. **authMiddleware** verifies the token on every protected request
 6. If valid, the request proceeds — if not, a `401 Unauthorized` is returned
+7. Each note is linked to the logged-in user — users can only see their own notes
+
+---
+
+## 🌐 Deployment
+
+| Layer | Platform | URL |
+|---|---|---|
+| Frontend | Netlify | [notehive365.netlify.app](https://notehive365.netlify.app) |
+| Backend | Render | https://notehive-qi1d.onrender.com |
+| Database | MongoDB Atlas | Cloud hosted |
 
 ---
 
 ## 👨‍💻 Author
 
-Built by **Yasaswini Samala** as a backend learning project using Node.js, Express and MongoDB.
+Built by **Yasaswini** as a full stack learning project.
 
 ---
 
