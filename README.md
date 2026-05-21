@@ -211,7 +211,7 @@ Returns a JWT token.
 
 ## 👨‍💻 Author
 
-Built by **Yasaswini** as a full stack learning project.
+Built by **Yasaswini Samala** as a full stack learning project.
 
 ---
 
