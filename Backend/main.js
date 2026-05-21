@@ -6,7 +6,7 @@ const port = 4200
 const mongoose = require('mongoose')
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'https://notehive-qi1d.onrender.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
